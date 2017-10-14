@@ -1,4 +1,5 @@
 {
-  "name": "schoolcalendar",
-  "displayName": "schoolcalendar"
+  "expo": {
+    "sdkVersion": "21.0.0"
+  }
 }
