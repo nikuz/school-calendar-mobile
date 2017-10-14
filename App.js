@@ -1,23 +1,34 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Provider } from 'react-redux';
+// import { Font } from 'expo';
+import store from './app/store';
+import modelsInit from './app/models';
+import Navigator from './app/navigator';
 
 export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
-  }
-}
+    constructor() {
+        super();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+        this.state = {
+            appInitiated: false,
+        };
+    }
+    async componentWillMount() {
+        await modelsInit();
+        this.setState({
+            appInitiated: true,
+        })
+    }
+
+    render() {
+        if (this.state.appInitiated) {
+            return (
+                <Provider store={store}>
+                    <Navigator />
+                </Provider>
+            );
+        }
+
+        return null;
+    }
+}
