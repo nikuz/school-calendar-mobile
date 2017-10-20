@@ -12,7 +12,8 @@ import * as navigatorActions from './actions/navigator';
 import colors from './styles/colors';
 
 import Launcher from './scenes/launcher';
-import Login from './scenes/login';
+import SignIn from './scenes/login/sign-in';
+import SignUp from './scenes/login/sign-up';
 import Modal from './components/modal';
 
 const headerStyle = {
@@ -31,8 +32,16 @@ const AppNavigator = StackNavigator({
             header: null,
         },
     },
-    login: {
-        screen: Login,
+    signin: {
+        screen: SignIn,
+        navigationOptions: {
+            header: null,
+            gesturesEnabled: true,
+            headerStyle,
+        },
+    },
+    signup: {
+        screen: SignUp,
         navigationOptions: {
             gesturesEnabled: true,
             headerStyle,

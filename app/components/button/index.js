@@ -7,6 +7,7 @@ import {
     Text,
     ActivityIndicator,
 } from 'react-native';
+import { FormattedMessage } from 'react-intl';
 import styles from './styles';
 
 type Props = {
@@ -38,7 +39,7 @@ class Button extends React.Component<Props, void> {
         } = this.props;
         let buttonStyle = [
             styles.btn,
-            type && styles[`${type}_btn`],
+            type && styles[`${ type }_btn`],
             disabled && styles.btn_disabled,
         ];
 
@@ -60,12 +61,12 @@ class Button extends React.Component<Props, void> {
                     <Text
                         style={ [
                             styles.text,
-                            type && styles[`${type}_text`],
+                            type && styles[`${ type }_text`],
                             disabled && styles.disabled_text,
                             loading && styles.hidden_text,
                         ] }
                     >
-                        { text }
+                        <FormattedMessage id={ text } />
                     </Text>
                     { loading && (
                         <View style={ styles.loader }>
@@ -87,7 +88,17 @@ const ButtonBlue = (props: Object) => {
     return <Button { ...extendedProps } />;
 };
 
+const ButtonGreen = (props: Object) => {
+    const extendedProps: Props = {
+        ...props,
+        type: 'green',
+    };
+
+    return <Button { ...extendedProps } />;
+};
+
 export {
     Button,
     ButtonBlue,
+    ButtonGreen,
 };

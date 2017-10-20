@@ -4,6 +4,7 @@ import KeyboardAwareScrollView from './keyboard-aware-scroll-view';
 import {
     Button,
     ButtonBlue,
+    ButtonGreen,
 } from './button';
 import TextInput from './text-input';
 import Link from './link';
@@ -17,6 +18,7 @@ export {
     KeyboardAwareScrollView,
     Button,
     ButtonBlue,
+    ButtonGreen,
     TextInput,
     Link,
     NetworkError,

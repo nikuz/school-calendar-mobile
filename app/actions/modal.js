@@ -7,7 +7,13 @@ const {
     MODAL_CLOSE,
 } = modalConstants;
 
-export const open = ({ content, callback, direction, showCloseIcon, contentTransparentBg }) => ({
+export const open = ({
+   content,
+   callback,
+   direction,
+   showCloseIcon,
+   contentTransparentBg,
+}) => ({
     type: MODAL_OPEN,
     payload: {
         content,

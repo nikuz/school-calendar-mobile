@@ -16,9 +16,9 @@ type Props = {
 
 class Launch extends React.Component<Props, void> {
     componentDidMount() {
-        let initialRoute = 'login';
+        let initialRoute = 'signin';
         if (this.props.account.authorisation.access_token) { // if user is authorised
-            initialRoute = 'search';
+            initialRoute = 'profile';
         }
 
         this.props.navigateTo({
@@ -30,7 +30,7 @@ class Launch extends React.Component<Props, void> {
         return (
             <View style={ styles.container }>
                 <View style={ styles.centerline }>
-                    <ActivityIndicator size='large' color={ colors.grey } />
+                    <ActivityIndicator size='large' color={ colors.gray } />
                 </View>
             </View>
         );

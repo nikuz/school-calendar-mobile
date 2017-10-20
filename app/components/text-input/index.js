@@ -6,6 +6,7 @@ import {
     TextInput,
     TouchableOpacity,
 } from 'react-native';
+import { injectIntl } from 'react-intl';
 import colors from '../../styles/colors';
 import styles from './styles';
 
@@ -25,6 +26,7 @@ type Props = {
     enablesReturnKeyAutomatically?: boolean,
     returnKeyType?: string,
     clearButtonMode?: string,
+    intl: Object,
 };
 
 class TextField extends React.Component<Props, void> {
@@ -39,7 +41,7 @@ class TextField extends React.Component<Props, void> {
         containerStyle: null,
         enablesReturnKeyAutomatically: true,
         returnKeyType: 'next',
-        placeholderColor: colors.text_field_placeholder_color,
+        placeholderColor: colors.gray,
         clearButtonMode: 'never',
     };
 
@@ -56,7 +58,6 @@ class TextField extends React.Component<Props, void> {
     render() {
         const {
             value,
-            placeholder,
             placeholderColor,
             disabled,
             keyboardType,
@@ -67,9 +68,18 @@ class TextField extends React.Component<Props, void> {
             autoCorrect,
             autoFocus,
             clearButtonMode,
+            intl,
         } = this.props;
         const additionalContainerStyle = this.props.containerStyle;
+        let placeholder = this.props.placeholder;
         const isCustomPlaceholder = typeof placeholder === 'object';
+        const formatMessage = intl.formatMessage;
+
+        if (!isCustomPlaceholder) {
+            placeholder = formatMessage({
+                id: placeholder,
+            });
+        }
 
         let containerStyle = [
             styles.container,
@@ -129,4 +139,4 @@ class TextField extends React.Component<Props, void> {
     }
 }
 
-export default TextField;
+export default injectIntl(TextField);

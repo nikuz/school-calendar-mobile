@@ -1,19 +1,25 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import {
-    ButtonBlue,
+    View,
+    Text,
+} from 'react-native';
+import { FormattedMessage } from 'react-intl';
+import {
+    KeyboardAwareScrollView,
     TextInput,
+    ButtonGreen,
+    ButtonBlue,
     Link,
     // NetworkError,
     // Error,
 } from '../../../components';
-import * as accountConstants from '../../../constants/account';
 import styles from '../styles';
 
 type Props = {
     account: Object,
+    intl: Object,
     scrollContainer: Object,
     forgotPasswordClickHandler: () => void,
     signIn: (email: string, password: string) => void,
@@ -24,14 +30,12 @@ type Props = {
 type State = {
     login: string,
     password: string,
-    submitDisabled: boolean,
 };
 
 class SignIn extends React.Component<Props, State> {
     state = {
         login: '',
         password: '',
-        submitDisabled: true,
     };
 
     componentWillReceiveProps(newProps) {
@@ -53,7 +57,6 @@ class SignIn extends React.Component<Props, State> {
         const login = value.trim();
         this.setState({
             login,
-            submitDisabled: login.length === 0 || this.state.password.length === 0,
         });
     };
 
@@ -61,12 +64,11 @@ class SignIn extends React.Component<Props, State> {
         const password = value.trim();
         this.setState({
             password,
-            submitDisabled: password.length === 0 || this.state.login.length === 0,
         });
     };
 
     submit = () => {
-        if (this.props.account.sign_in_loading || this.state.submitDisabled) {
+        if (this.props.account.sign_in_loading) {
             return;
         }
         this.props.signIn(this.state.login, this.state.password);
@@ -76,54 +78,62 @@ class SignIn extends React.Component<Props, State> {
         const {
             login,
             password,
-            submitDisabled,
         } = this.state;
         const {
             scrollContainer,
             account,
+            intl,
         } = this.props;
+        const formatMessage = intl.formatMessage;
 
         return (
-            <View>
-                <TextInput
-                    value={ login }
-                    placeholder={ accountConstants.ACCOUNT_SIGN_IN_USERNAME_TEXT }
-                    first={ true }
-                    autoCorrect={ false }
-                    autoFocus={ true }
-                    keyboardType='email-address'
-                    onChange={ this.loginOnChange }
-                    scrollContainer={ scrollContainer }
-                />
-                <TextInput
-                    value={ password }
-                    placeholder={ accountConstants.ACCOUNT_SIGN_IN_PASSWORD_TEXT }
-                    last={ true }
-                    lastAfterFirst={ true }
-                    onChange={ this.passwordOnChange }
-                    secureTextEntry={ true }
-                    scrollContainer={ scrollContainer }
-                />
-                <ButtonBlue
-                    style={ styles.submit_btn }
-                    text={ accountConstants.ACCOUNT_SIGN_IN_SUBMIT_BUTTON_TEXT }
-                    onPress={ this.submit }
-                    loading={ account.sign_in_loading }
-                    disabled={ submitDisabled }
-                />
-                <View style={ styles.links_wrapper }>
-                    <Link
-                        text={ accountConstants.ACCOUNT_SIGN_IN_FORGOT_PASSWORD_TEXT }
-                        style={ styles.link }
-                        onPress={ this.props.forgotPasswordClickHandler }
+            <KeyboardAwareScrollView ref={ el => this.scrollContainer = el }>
+                <View style={ styles.container }>
+                    <Text style={ styles.page_title }>
+                        { formatMessage({
+                            id: 'Account.Sign-In.Title',
+                        }).toUpperCase() }
+                    </Text>
+                    <TextInput
+                        value={ login }
+                        placeholder='Account.Sign-In.Username'
+                        autoCorrect={ false }
+                        autoFocus={ true }
+                        keyboardType='email-address'
+                        containerStyle={ styles.field }
+                        onChange={ this.loginOnChange }
+                        scrollContainer={ this.scrollContainer }
                     />
-                    <Link
-                        text={ accountConstants.ACCOUNT_SIGN_UP_SUBMIT_BUTTON_TEXT }
-                        style={ styles.link }
-                        onPress={ this.props.signUpClickHandler }
+                    <TextInput
+                        value={ password }
+                        placeholder='Account.Sign-In.Password'
+                        secureTextEntry={ true }
+                        containerStyle={ styles.field }
+                        onChange={ this.passwordOnChange }
+                        scrollContainer={ this.scrollContainer }
                     />
+                    <ButtonGreen
+                        style={ styles.submit_btn }
+                        text='Account.Sign-In.Submit-Button'
+                        onPress={ this.submit }
+                        loading={ account.sign_in_loading }
+                    />
+                    <Text style={ styles.create_account_question }>
+                        <FormattedMessage id='Account.Sign-In.Create-Account-Question' />
+                    </Text>
+                    <ButtonBlue
+                        style={ styles.submit_btn }
+                        text='Account.Sign-In.Create-Account'
+                    />
+                    <View style={ styles.forgot_password }>
+                        <Link
+                            text='Account.Sign-In.Forgot-Password'
+                            style={ styles.forgot_password_text }
+                            onPress={ this.props.forgotPasswordClickHandler }
+                        />
+                    </View>
                 </View>
-            </View>
+            </KeyboardAwareScrollView>
         );
     }
 }

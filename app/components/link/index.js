@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Text } from 'react-native';
+import { FormattedMessage } from 'react-intl';
 import styles from './styles';
 
 type Props = {
@@ -26,7 +27,7 @@ class Link extends React.Component<Props, void> {
 
         return (
             <Text style={ linkStyle } onPress={ this.props.onPress }>
-                { this.props.text }
+                <FormattedMessage id={ this.props.text } />
             </Text>
         );
     }

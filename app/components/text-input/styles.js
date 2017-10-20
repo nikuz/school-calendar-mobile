@@ -4,17 +4,15 @@ import { deviceUtils } from '../../utils';
 
 export default stylesGenerator({
     container: {
-        borderWidth: 1,
-        borderColor: colors.text_field_border,
-        borderRadius: 7,
-        backgroundColor: colors.text_field_bg,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.gray,
     },
     field: {
-        height: 60,
+        height: 40,
         paddingHorizontal: 10,
         backgroundColor: 'transparent',
         textAlignVertical: 'center',
-        textAlign: 'center',
+        textAlign: 'left',
         fontSize: 18,
         color: colors.black,
     },

@@ -8,18 +8,17 @@ export default stylesGenerator({
         paddingHorizontal: 20,
         paddingVertical: 15,
         marginVertical: 10,
-        borderWidth: 1,
-        borderColor: colors.btn_border_color,
         borderRadius: 7,
         backgroundColor: colors.bg,
     },
     blue_btn: {
         backgroundColor: colors.blue,
-        borderColor: colors.blue,
+    },
+    green_btn: {
+        backgroundColor: colors.green_light,
     },
     btn_disabled: {
-        backgroundColor: colors.light_grey,
-        borderColor: colors.light_grey,
+        backgroundColor: colors.gray_light,
     },
     text: {
         fontSize: 18,
@@ -27,6 +26,9 @@ export default stylesGenerator({
         textAlign: 'center',
     },
     blue_text: {
+        color: colors.white,
+    },
+    green_text: {
         color: colors.white,
     },
     disabled_text: {

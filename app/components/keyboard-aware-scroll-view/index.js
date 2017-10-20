@@ -32,7 +32,7 @@ class KeyboardAwareScrollView extends React.Component<Props, State> {
     state = {
         curScroll: 0,
         prevScroll: 0,
-        marginBottomAnimate: 0,
+        marginBottomAnimate: new Animated.Value(0),
         targetEl: null,
     };
 
@@ -51,13 +51,11 @@ class KeyboardAwareScrollView extends React.Component<Props, State> {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        const state = this.state;
-
-        return state.curScroll === nextState.curScroll
-            && state.prevScroll === nextState.prevScroll
-            && state.targetEl === nextState.targetEl;
-    }
+    shouldComponentUpdate = (nextProps: Props, nextState: State) => (
+        this.state.curScroll === nextState.curScroll
+            && this.state.prevScroll === nextState.prevScroll
+            && this.state.targetEl === nextState.targetEl
+    );
 
     componentWillUnmount() {
         this.listeners.forEach((listener) => {
@@ -66,24 +64,28 @@ class KeyboardAwareScrollView extends React.Component<Props, State> {
     }
 
     keyboardWillShow = (event) => {
-        const state = this.state;
+        const {
+            marginBottomAnimate,
+            targetEl,
+            curScroll,
+        } = this.state;
         const keyboardHeight = event.endCoordinates.height;
 
-        if (keyboardHeight > 0 && state.marginBottom !== keyboardHeight) {
-            state.marginBottomAnimate.stopAnimation();
-            Animated.timing(state.marginBottomAnimate, {
+        if (keyboardHeight > 0 && this.state.marginBottom !== keyboardHeight) {
+            marginBottomAnimate.stopAnimation();
+            Animated.timing(marginBottomAnimate, {
                 toValue: keyboardHeight,
                 duration: event.duration || KEYBOARD_SHOW_DURATION,
             }).start(() => {
-                const curScroll = state.curScroll;
+                const curScrollValue = curScroll;
                 this.setState({
-                    prevScroll: curScroll,
+                    prevScroll: curScrollValue,
                 });
-                if (!this.state.targetEl) {
+                if (!targetEl) {
                     return;
                 }
                 const scrollView = this.scrollEll.getScrollResponder();
-                this.state.targetEl.measure((ox, oy, width, height, px, py) => {
+                targetEl.measure((ox, oy, width, height, px, py) => {
                     const deviceHeight = deviceUtils.dimensions().height;
                     const additionalSpace = 1;
                     const statusBarHeight = 20;
@@ -93,8 +95,8 @@ class KeyboardAwareScrollView extends React.Component<Props, State> {
 
                     let positionTo;
 
-                    if (py >= scrollBlockHeight || state.curScroll > py) {
-                        positionTo = curScroll + (py - scrollBlockHeight) + height;
+                    if (py >= scrollBlockHeight || curScroll > py) {
+                        positionTo = curScrollValue + (py - scrollBlockHeight) + height;
                     }
                     if (positionTo !== undefined) {
                         scrollView.scrollTo({
@@ -109,10 +111,10 @@ class KeyboardAwareScrollView extends React.Component<Props, State> {
     };
 
     keyboardWillHide = (event) => {
-        const state = this.state;
+        const { marginBottomAnimate } = this.state;
 
-        state.marginBottomAnimate.stopAnimation();
-        Animated.timing(state.marginBottomAnimate, {
+        marginBottomAnimate.stopAnimation();
+        Animated.timing(marginBottomAnimate, {
             toValue: this.props.additionalMarginBottom || 0,
             duration: (event && event.duration) || KEYBOARD_SHOW_DURATION,
         }).start(() => {
@@ -161,6 +163,7 @@ class KeyboardAwareScrollView extends React.Component<Props, State> {
             <Animated.View style={ animatedStyle }>
                 <ScrollView
                     ref={ el => this.scrollEll = el }
+                    contentContainerStyle={ { flex: 1 } }
                     showsVerticalScrollIndicator={ false }
                     showsHorizontalScrollIndicator={ false }
                     keyboardDismissMode='none'
