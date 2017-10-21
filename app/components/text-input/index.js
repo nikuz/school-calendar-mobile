@@ -1,16 +1,17 @@
 // @flow
 
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     View,
     TextInput,
     TouchableOpacity,
 } from 'react-native';
-import { injectIntl } from 'react-intl';
 import colors from '../../styles/colors';
 import styles from './styles';
 
 type Props = {
+    lexemes: Object,
     value: string,
     placeholder: string | ReactComponent,
     placeholderColor?: string,
@@ -68,17 +69,14 @@ class TextField extends React.Component<Props, void> {
             autoCorrect,
             autoFocus,
             clearButtonMode,
-            intl,
+            lexemes,
         } = this.props;
         const additionalContainerStyle = this.props.containerStyle;
         let placeholder = this.props.placeholder;
         const isCustomPlaceholder = typeof placeholder === 'object';
-        const formatMessage = intl.formatMessage;
 
         if (!isCustomPlaceholder) {
-            placeholder = formatMessage({
-                id: placeholder,
-            });
+            placeholder = lexemes[placeholder];
         }
 
         let containerStyle = [
@@ -139,4 +137,6 @@ class TextField extends React.Component<Props, void> {
     }
 }
 
-export default injectIntl(TextField);
+export default connect((state: Object) => ({
+    lexemes: state.settings.lexemes,
+}), null)(TextField);

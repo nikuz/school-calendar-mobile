@@ -13,6 +13,7 @@ import ModalMessage from './modal-message';
 import SegmentedControls from './segmented-controlls';
 import NavigatorBackButton from './navigator-back-button';
 import NavigatorHeader from './navigator-header';
+import Lexeme from './lexeme';
 
 export {
     KeyboardAwareScrollView,
@@ -26,4 +27,5 @@ export {
     SegmentedControls,
     NavigatorBackButton,
     NavigatorHeader,
+    Lexeme,
 };

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Text } from 'react-native';
-import { FormattedMessage } from 'react-intl';
+import { Lexeme } from '../../components';
 import styles from './styles';
 
 type Props = {
@@ -27,7 +27,7 @@ class Link extends React.Component<Props, void> {
 
         return (
             <Text style={ linkStyle } onPress={ this.props.onPress }>
-                <FormattedMessage id={ this.props.text } />
+                <Lexeme id={ this.props.text } />
             </Text>
         );
     }

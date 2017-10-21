@@ -5,6 +5,7 @@ import * as deviceUtils from './device';
 import * as networkUtils from './network';
 import * as storageUtils from './storage';
 import keyMirror from './key-mirror';
+import changeLanguage from './language';
 
 export {
     api,
@@ -12,4 +13,5 @@ export {
     networkUtils,
     storageUtils,
     keyMirror,
+    changeLanguage,
 }

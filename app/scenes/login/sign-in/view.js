@@ -5,7 +5,6 @@ import {
     View,
     Text,
 } from 'react-native';
-import { FormattedMessage } from 'react-intl';
 import {
     KeyboardAwareScrollView,
     TextInput,
@@ -15,11 +14,12 @@ import {
     // NetworkError,
     // Error,
 } from '../../../components';
+import store from '../../../store';
 import styles from '../styles';
 
 type Props = {
     account: Object,
-    intl: Object,
+    lexemes: Object,
     signIn: (email: string, password: string) => void,
     // modalOpen: PropTypes.func.isRequired,
     goToSignUp: () => void,
@@ -35,6 +35,13 @@ class SignIn extends React.Component<Props, State> {
     state = {
         login: '',
         password: '',
+    };
+
+    static navigationOptions = () => {
+        const lexemes = store.getState().settings.lexemes;
+        return {
+            title: lexemes['Account.Sign-In.Title'],
+        };
     };
 
     componentWillReceiveProps(newProps) {
@@ -80,19 +87,13 @@ class SignIn extends React.Component<Props, State> {
         } = this.state;
         const {
             account,
-            intl,
+            lexemes,
         } = this.props;
-        const formatMessage = intl.formatMessage;
 
         return (
             <View style={ styles.container }>
                 <KeyboardAwareScrollView ref={ el => this.scrollContainer = el }>
                     <View style={ styles.content }>
-                        <Text style={ styles.page_title }>
-                            { formatMessage({
-                                id: 'Account.Sign-In.Title',
-                            }).toUpperCase() }
-                        </Text>
                         <TextInput
                             value={ login }
                             placeholder='Account.Sign-In.Username'
@@ -117,7 +118,7 @@ class SignIn extends React.Component<Props, State> {
                             loading={ account.sign_in_loading }
                         />
                         <Text style={ styles.create_account_question }>
-                            <FormattedMessage id='Account.Sign-In.Create-Account-Question' />
+                            { lexemes['Account.Sign-In.Create-Account-Question'] }
                         </Text>
                         <ButtonBlue
                             style={ styles.submit_btn }

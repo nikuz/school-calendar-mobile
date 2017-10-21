@@ -1,9 +1,8 @@
 // @flow
 
-import { compose, bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import type { DispatchAPI } from 'redux';
-import { injectIntl } from 'react-intl';
 import {
     accountActions,
     navigatorActions,
@@ -13,6 +12,7 @@ import View from './view';
 
 const mapStateToProps = (state: Object) => ({
     account: state.account,
+    lexemes: state.settings.lexemes,
 });
 
 const mapDispatchToProps = (dispatch: DispatchAPI<*>) => ({
@@ -27,7 +27,4 @@ const mapDispatchToProps = (dispatch: DispatchAPI<*>) => ({
     modalClose: bindActionCreators(modalActions.close, dispatch),
 });
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    injectIntl
-)(View);
+export default connect(mapStateToProps, mapDispatchToProps)(View);

@@ -1,26 +1,21 @@
 // @flow
 
 import React from 'react';
-import {
-    View,
-    Text,
-} from 'react-native';
-import { FormattedMessage } from 'react-intl';
+import { View } from 'react-native';
 import {
     KeyboardAwareScrollView,
     ButtonBlue,
-    ButtonGreen,
     TextInput,
     // NetworkError,
     // Error,
 } from '../../../components';
+import store from '../../../store';
 import styles from '../styles';
 
 type Props = {
     account: Object,
     // modalOpen: PropTypes.func.isRequired,
     signUp: (name: string, phone: string) => void,
-    goBack: () => void,
 };
 
 type State = {
@@ -33,6 +28,13 @@ class SignUp extends React.Component<Props, State> {
     state = {
         name: '',
         phone: '',
+    };
+
+    static navigationOptions = () => {
+        const lexemes = store.getState().settings.lexemes;
+        return {
+            title: lexemes['Account.Sign-Up.Title'],
+        };
     };
 
     componentWillReceiveProps(newProps) {
@@ -81,20 +83,11 @@ class SignUp extends React.Component<Props, State> {
             name,
             phone,
         } = this.state;
-        const {
-            account,
-            intl,
-        } = this.props;
-        const formatMessage = intl.formatMessage;
+        const { account } = this.props;
 
         return (
             <KeyboardAwareScrollView ref={ el => this.scrollContainer = el }>
                 <View style={ styles.content }>
-                    <Text style={ styles.page_title }>
-                        { formatMessage({
-                            id: 'Account.Sign-Up.Title',
-                        }).toUpperCase() }
-                    </Text>
                     <TextInput
                         value={ name }
                         placeholder='Account.Sign-Up.Name'
@@ -117,14 +110,6 @@ class SignUp extends React.Component<Props, State> {
                         text='Account.Sign-Up.Submit-Button'
                         onPress={ this.submit }
                         loading={ account.sign_up_loading }
-                    />
-                    <Text style={ styles.create_account_question }>
-                        <FormattedMessage id='Account.Sign-Up.Already-Have-Account-Question' />
-                    </Text>
-                    <ButtonGreen
-                        style={ styles.submit_btn }
-                        text='Account.Sign-Up.Log-In-Button'
-                        onPress={ this.props.goBack }
                     />
                 </View>
             </KeyboardAwareScrollView>

@@ -7,7 +7,7 @@ import {
     Text,
     ActivityIndicator,
 } from 'react-native';
-import { FormattedMessage } from 'react-intl';
+import { Lexeme } from '../../components';
 import styles from './styles';
 
 type Props = {
@@ -66,7 +66,7 @@ class Button extends React.Component<Props, void> {
                             loading && styles.hidden_text,
                         ] }
                     >
-                        <FormattedMessage id={ text } />
+                        <Lexeme id={ text } />
                     </Text>
                     { loading && (
                         <View style={ styles.loader }>

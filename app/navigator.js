@@ -35,7 +35,6 @@ const AppNavigator = StackNavigator({
     signin: {
         screen: SignIn,
         navigationOptions: {
-            header: null,
             gesturesEnabled: true,
             headerStyle,
         },
@@ -43,7 +42,6 @@ const AppNavigator = StackNavigator({
     signup: {
         screen: SignUp,
         navigationOptions: {
-            header: null,
             gesturesEnabled: true,
             headerStyle,
         },

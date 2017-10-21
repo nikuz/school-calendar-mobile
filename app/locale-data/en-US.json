@@ -3,8 +3,11 @@
     "Network.Error-Question": "Would you like to retry?",
     "Network.Error-Button-Cancel": "Cancel",
     "Network.Error-Button-Retry": "Retry",
+
     "Navigator.Back": "Back",
+
     "Account.OK-Button": "Ok",
+
     "Account.Sign-In.Title": "Authorization",
     "Account.Sign-In.Error": "User not found.",
     "Account.Sign-In.Username": "Username",
@@ -13,6 +16,7 @@
     "Account.Sign-In.Create-Account-Question": "Don't have an account?",
     "Account.Sign-In.Create-Account-Button": "Create one!",
     "Account.Sign-In.Forgot-Password": "Forgot password?",
+
     "Account.Sign-Up.Title": "Registration",
     "Account.Sign-Up.Error": "Registration error. Please check registration data and try again",
     "Account.Sign-Up.User-Exist-Error": "User already exist. Try to use another email address",
@@ -21,9 +25,10 @@
     "Account.Sign-Up.Submit-Button": "Create profile",
     "Account.Sign-Up.Already-Have-Account-Question": "Already have an account?",
     "Account.Sign-Up.Log-In-Button": "Log in",
+
     "Account.Forgot-Password.Email": "Your e-mail",
     "Account.Forgot-Password.Submit-Button": "Restore password",
     "Account.Forgot-Password.Error": "Internal server error",
     "Account.Forgot-Password.Success-Title": "Thank you!",
-    "Account.Forgot-Password.Success": "You have received an email with a new password",
+    "Account.Forgot-Password.Success": "You have received an email with a new password"
 }
