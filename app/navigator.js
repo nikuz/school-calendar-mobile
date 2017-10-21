@@ -43,6 +43,7 @@ const AppNavigator = StackNavigator({
     signup: {
         screen: SignUp,
         navigationOptions: {
+            header: null,
             gesturesEnabled: true,
             headerStyle,
         },

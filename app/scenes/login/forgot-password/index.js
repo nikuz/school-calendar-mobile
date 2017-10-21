@@ -1,9 +1,11 @@
 // @flow
 
 import { connect } from 'react-redux';
-import * as accountActions from '../../../actions/account';
-import * as navigatorActions from '../../../actions/navigator';
-import * as modalActions from '../../../actions/modal';
+import {
+    accountActions,
+    navigatorActions,
+    modalActions,
+} from '../../../actions';
 import View from './view';
 
 const mapStateToProps = (state: Object) => ({

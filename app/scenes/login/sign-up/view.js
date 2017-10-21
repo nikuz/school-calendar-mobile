@@ -1,38 +1,38 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import {
+    View,
+    Text,
+} from 'react-native';
+import { FormattedMessage } from 'react-intl';
+import {
+    KeyboardAwareScrollView,
     ButtonBlue,
+    ButtonGreen,
     TextInput,
-    Link,
     // NetworkError,
     // Error,
 } from '../../../components';
-import * as accountConstants from '../../../constants/account';
 import styles from '../styles';
 
 type Props = {
     account: Object,
-    scrollContainer: Object,
-    signInClickHandler: () => void,
     // modalOpen: PropTypes.func.isRequired,
-    signUp: (name: string, email: string, password: string) => void,
+    signUp: (name: string, phone: string) => void,
+    goBack: () => void,
 };
 
 type State = {
-    login: string,
-    email: string,
-    password: string,
+    name: string,
+    phone: string,
     submitDisabled: boolean,
 };
 
 class SignUp extends React.Component<Props, State> {
     state = {
-        login: '',
-        email: '',
-        password: '',
-        submitDisabled: true,
+        name: '',
+        phone: '',
     };
 
     componentWillReceiveProps(newProps) {
@@ -54,33 +54,15 @@ class SignUp extends React.Component<Props, State> {
         }
     }
 
-    loginOnChange = (value) => {
-        const login = value.trim();
+    nameOnChange = (value) => {
         this.setState({
-            login: value,
-            submitDisabled: (
-                login.length === 0 || this.state.password.length === 0 || this.state.email.length === 0
-            ),
+            name: value.trim(),
         });
     };
 
-    emailOnChange = (value) => {
-        const email = value.trim();
+    phoneOnChange = (value) => {
         this.setState({
-            email,
-            submitDisabled: (
-                email.length === 0 || this.state.password.length === 0 || this.state.login.length === 0
-            ),
-        });
-    };
-
-    passwordOnChange = (value) => {
-        const password = value.trim();
-        this.setState({
-            password: value,
-            submitDisabled: (
-                password.length === 0 || this.state.login.length === 0 || this.state.email.length === 0
-            ),
+            phone: value.trim(),
         });
     };
 
@@ -89,69 +71,63 @@ class SignUp extends React.Component<Props, State> {
             return;
         }
         this.props.signUp(
-            this.state.login,
-            this.state.email,
-            this.state.password,
+            this.state.name,
+            this.state.phone
         );
     };
 
     render() {
         const {
-            login,
-            email,
-            password,
-            submitDisabled,
+            name,
+            phone,
         } = this.state;
         const {
-            scrollContainer,
             account,
+            intl,
         } = this.props;
+        const formatMessage = intl.formatMessage;
 
         return (
-            <View>
-                <TextInput
-                    value={ login }
-                    placeholder={ accountConstants.ACCOUNT_SIGN_UP_USERNAME_TEXT }
-                    first={ true }
-                    autoCorrect={ false }
-                    keyboardType='email-address'
-                    autoFocus={ true }
-                    onChange={ this.loginOnChange }
-                    scrollContainer={ scrollContainer }
-                />
-                <TextInput
-                    value={ email }
-                    placeholder={ accountConstants.ACCOUNT_SIGN_UP_EMAIL_TEXT }
-                    middle={ true }
-                    lastAfterFirst={ true }
-                    autoCorrect={ false }
-                    onChange={ this.emailOnChange }
-                    scrollContainer={ scrollContainer }
-                />
-                <TextInput
-                    value={ password }
-                    placeholder={ accountConstants.ACCOUNT_SIGN_UP_PASSWORD_TEXT }
-                    last={ true }
-                    lastAfterFirst={ true }
-                    onChange={ this.passwordOnChange }
-                    secureTextEntry={ true }
-                    scrollContainer={ scrollContainer }
-                />
-                <ButtonBlue
-                    style={ styles.submit_btn }
-                    text={ accountConstants.ACCOUNT_SIGN_UP_SUBMIT_BUTTON_TEXT }
-                    onPress={ this.submit }
-                    loading={ account.sign_up_loading }
-                    disabled={ submitDisabled }
-                />
-                <View style={ styles.links_wrapper }>
-                    <Link
-                        text={ accountConstants.ACCOUNT_SIGN_IN_SUBMIT_BUTTON_TEXT }
-                        style={ styles.link }
-                        onPress={ this.props.signInClickHandler }
+            <KeyboardAwareScrollView ref={ el => this.scrollContainer = el }>
+                <View style={ styles.content }>
+                    <Text style={ styles.page_title }>
+                        { formatMessage({
+                            id: 'Account.Sign-Up.Title',
+                        }).toUpperCase() }
+                    </Text>
+                    <TextInput
+                        value={ name }
+                        placeholder='Account.Sign-Up.Name'
+                        autoCorrect={ false }
+                        keyboardType='email-address'
+                        containerStyle={ styles.field }
+                        onChange={ this.nameOnChange }
+                        scrollContainer={ this.scrollContainer }
+                    />
+                    <TextInput
+                        value={ phone }
+                        placeholder='Account.Sign-Up.Phone'
+                        autoCorrect={ false }
+                        containerStyle={ styles.field }
+                        onChange={ this.phoneOnChange }
+                        scrollContainer={ this.scrollContainer }
+                    />
+                    <ButtonBlue
+                        style={ styles.submit_btn }
+                        text='Account.Sign-Up.Submit-Button'
+                        onPress={ this.submit }
+                        loading={ account.sign_up_loading }
+                    />
+                    <Text style={ styles.create_account_question }>
+                        <FormattedMessage id='Account.Sign-Up.Already-Have-Account-Question' />
+                    </Text>
+                    <ButtonGreen
+                        style={ styles.submit_btn }
+                        text='Account.Sign-Up.Log-In-Button'
+                        onPress={ this.props.goBack }
                     />
                 </View>
-            </View>
+            </KeyboardAwareScrollView>
         );
     }
 }

@@ -2,11 +2,8 @@
 
 import { connect } from 'react-redux';
 import {
-    resetLoginState,
-    makeSignInActive,
-    makeSignUpActive,
-    makeForgotPasswordActive,
-} from '../../actions/account';
+    accountActions,
+} from '../../actions';
 import View from './view';
 
 const mapStateToProps = (state: Object) => ({
@@ -14,10 +11,10 @@ const mapStateToProps = (state: Object) => ({
 });
 
 const mapDispatchToProps = {
-    resetLoginState,
-    makeSignInActive,
-    makeSignUpActive,
-    makeForgotPasswordActive,
+    resetLoginState: accountActions.resetLoginState,
+    makeSignInActive: accountActions.makeSignInActive,
+    makeSignUpActive: accountActions.makeSignUpActive,
+    makeForgotPasswordActive: accountActions.makeForgotPasswordActive,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(View);

@@ -20,11 +20,10 @@ import styles from '../styles';
 type Props = {
     account: Object,
     intl: Object,
-    scrollContainer: Object,
-    forgotPasswordClickHandler: () => void,
     signIn: (email: string, password: string) => void,
     // modalOpen: PropTypes.func.isRequired,
-    signUpClickHandler: () => void,
+    goToSignUp: () => void,
+    goToForgotPassword: () => void,
 };
 
 type State = {
@@ -80,60 +79,61 @@ class SignIn extends React.Component<Props, State> {
             password,
         } = this.state;
         const {
-            scrollContainer,
             account,
             intl,
         } = this.props;
         const formatMessage = intl.formatMessage;
 
         return (
-            <KeyboardAwareScrollView ref={ el => this.scrollContainer = el }>
-                <View style={ styles.container }>
-                    <Text style={ styles.page_title }>
-                        { formatMessage({
-                            id: 'Account.Sign-In.Title',
-                        }).toUpperCase() }
-                    </Text>
-                    <TextInput
-                        value={ login }
-                        placeholder='Account.Sign-In.Username'
-                        autoCorrect={ false }
-                        autoFocus={ true }
-                        keyboardType='email-address'
-                        containerStyle={ styles.field }
-                        onChange={ this.loginOnChange }
-                        scrollContainer={ this.scrollContainer }
-                    />
-                    <TextInput
-                        value={ password }
-                        placeholder='Account.Sign-In.Password'
-                        secureTextEntry={ true }
-                        containerStyle={ styles.field }
-                        onChange={ this.passwordOnChange }
-                        scrollContainer={ this.scrollContainer }
-                    />
-                    <ButtonGreen
-                        style={ styles.submit_btn }
-                        text='Account.Sign-In.Submit-Button'
-                        onPress={ this.submit }
-                        loading={ account.sign_in_loading }
-                    />
-                    <Text style={ styles.create_account_question }>
-                        <FormattedMessage id='Account.Sign-In.Create-Account-Question' />
-                    </Text>
-                    <ButtonBlue
-                        style={ styles.submit_btn }
-                        text='Account.Sign-In.Create-Account'
-                    />
-                    <View style={ styles.forgot_password }>
-                        <Link
-                            text='Account.Sign-In.Forgot-Password'
-                            style={ styles.forgot_password_text }
-                            onPress={ this.props.forgotPasswordClickHandler }
+            <View style={ styles.container }>
+                <KeyboardAwareScrollView ref={ el => this.scrollContainer = el }>
+                    <View style={ styles.content }>
+                        <Text style={ styles.page_title }>
+                            { formatMessage({
+                                id: 'Account.Sign-In.Title',
+                            }).toUpperCase() }
+                        </Text>
+                        <TextInput
+                            value={ login }
+                            placeholder='Account.Sign-In.Username'
+                            autoCorrect={ false }
+                            keyboardType='email-address'
+                            containerStyle={ styles.field }
+                            onChange={ this.loginOnChange }
+                            scrollContainer={ this.scrollContainer }
+                        />
+                        <TextInput
+                            value={ password }
+                            placeholder='Account.Sign-In.Password'
+                            secureTextEntry={ true }
+                            containerStyle={ styles.field }
+                            onChange={ this.passwordOnChange }
+                            scrollContainer={ this.scrollContainer }
+                        />
+                        <ButtonGreen
+                            style={ styles.submit_btn }
+                            text='Account.Sign-In.Submit-Button'
+                            onPress={ this.submit }
+                            loading={ account.sign_in_loading }
+                        />
+                        <Text style={ styles.create_account_question }>
+                            <FormattedMessage id='Account.Sign-In.Create-Account-Question' />
+                        </Text>
+                        <ButtonBlue
+                            style={ styles.submit_btn }
+                            text='Account.Sign-In.Create-Account-Button'
+                            onPress={ this.props.goToSignUp }
                         />
                     </View>
+                </KeyboardAwareScrollView>
+                <View style={ styles.forgot_password }>
+                    <Link
+                        text='Account.Sign-In.Forgot-Password'
+                        style={ styles.forgot_password_text }
+                        onPress={ this.props.goToForgotPassword }
+                    />
                 </View>
-            </KeyboardAwareScrollView>
+            </View>
         );
     }
 }

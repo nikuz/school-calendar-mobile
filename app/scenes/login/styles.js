@@ -6,6 +6,9 @@ import colors from '../../styles/colors';
 export default stylesGenerator({
     container: {
         flex: 1,
+    },
+    content: {
+        flex: 1,
         justifyContent: 'center',
         paddingHorizontal: 50,
     },

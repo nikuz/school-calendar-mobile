@@ -1,18 +1,28 @@
 // @flow
 
+import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as accountActions from '../../../actions/account';
-import * as modalActions from '../../../actions/modal';
+import type { DispatchAPI } from 'redux';
+import { injectIntl } from 'react-intl';
+import {
+    accountActions,
+    navigatorActions,
+    modalActions,
+} from '../../../actions';
 import View from './view';
 
 const mapStateToProps = (state: Object) => ({
     account: state.account,
 });
 
-const mapDispatchToProps = {
-    signUp: accountActions.signUp,
-    modalOpen: modalActions.open,
-    modalClose: modalActions.close,
-};
+const mapDispatchToProps = (dispatch: DispatchAPI<*>) => ({
+    signUp: bindActionCreators(accountActions.signUp, dispatch),
+    goBack: () => dispatch(navigatorActions.pop()),
+    modalOpen: bindActionCreators(modalActions.open, dispatch),
+    modalClose: bindActionCreators(modalActions.close, dispatch),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(View);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    injectIntl
+)(View);
